@@ -51,14 +51,11 @@ class Perceptron:
         ### regra de aprendizado do Perceptron: w = w + n (y - y_previsto)X
         ### TODO
         x_bias=np.c_[X,np.ones(X.shape[0])]
-        for _ in range (self.epochs):
-            for xi, target in zip(x_bias,y):
-                prediction = self.predict(xi[:-1].reshape(1, -1))  # Remove o bias antes de chamar predict
-                if prediction != target: # se tiver errado, ajusta o bias
-                    # Atualizar os pesos sem afetar o bias diretamente
-                    self.weights[:-1] += self.learning_rate * (target - prediction) * xi[:-1]
-                    # Atualizar o bias separadamente
-                    self.weights[-1] += self.learning_rate * (target - prediction)
+        for _ in range(self.epochs):  
+            for i in range(X.shape[0]):  
+                y_pred = self.activation(np.dot(x_bias[i], self.weights))  # Previsão
+                error = y[i] - y_pred
+                self.weights += self.learning_rate * error * x_bias[i]
         ### END CODE HERE ###
 
 def generate_data(seed, samples, noise):
