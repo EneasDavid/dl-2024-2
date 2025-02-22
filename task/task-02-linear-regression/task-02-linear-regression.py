@@ -40,6 +40,14 @@ def solve_linear_regression(X_train, y_train):
     """
     ### START CODE HERE ###
     ### TODO
+    x_mean=np.mean(X_train)
+    y_mean=np.mean(y_train)
+    
+    numerador=np.sum((X_train-x_mean)*(y_train-y_mean))
+    denominador=np.sum((X_train-x_mean)**2)
+    m_hat=numerador/denominador
+    
+    b_hat=y_mean-m_hat*x_mean
     ### END CODE HERE ###
     
     return m_hat, b_hat  # Return slope and intercept
