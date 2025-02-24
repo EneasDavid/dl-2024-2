@@ -43,6 +43,12 @@ def solve_linear_regression_nn(X_train, y_train, epochs=100, learning_rate=0.01)
     """
     ### START CODE HERE ###
     ### TODO
+    X_train=X_train.reshape(-1,1)
+    y_train=y_train.reshape(-1,1)
+    
+    model=keras.Sequential([keras.layers.Dense(units=1,input_shape=(1,))])
+    model.compile(optimizer=keras.optimizers.SGD(learning_rate=learning_rate),loss='mse')
+    model.fit(X_train, y_train, epochs=epochs, verbose=0)
     ### END CODE HERE ###
     
     return model
