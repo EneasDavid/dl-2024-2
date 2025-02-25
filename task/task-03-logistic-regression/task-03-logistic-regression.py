@@ -6,26 +6,51 @@ class LogisticNeuron:
     def __init__(self, input_dim, learning_rate=0.1, epochs=1000):
         ### START CODE HERE ###
         ### TODO
+        self.learning_rate = learning_rate
+        self.epochs = epochs
+        self.weights = np.random.randn(input_dim)
+        self.bias = np.random.randn()
+        self.loss_history = []
         ### END CODE HERE ###
     
     def sigmoid(self, z):
         ### START CODE HERE ###
         ### TODO
+        return 1 / (1 + np.exp(-z))
         ### END CODE HERE ###
     
     def predict_proba(self, X):
         ### START CODE HERE ###
         ### TODO
+        z = np.dot(X, self.weights) + self.bias
+        return self.sigmoid(z)
         ### END CODE HERE ###
     
     def predict(self, X):
         ### START CODE HERE ###
         ### TODO
+        return (self.predict_proba(X) >= 0.5).astype(int)
+
         ### END CODE HERE ###
     
     def train(self, X, y):
         ### START CODE HERE ###
         ### TODO
+        for _ in range(self.epochs):
+            probabilities = self.predict_proba(X)
+            
+            # Cálculo do gradiente
+            errors = probabilities - y
+            gradient_w = np.dot(X.T, errors) / len(y)
+            gradient_b = np.mean(errors)
+            
+            # Atualização dos pesos e bias
+            self.weights -= self.learning_rate * gradient_w
+            self.bias -= self.learning_rate * gradient_b
+            
+            # Função de perda (log loss)
+            loss = -np.mean(y * np.log(probabilities) + (1 - y) * np.log(1 - probabilities))
+            self.loss_history.append(loss)
         ### END CODE HERE ###
 
 def generate_dataset():
